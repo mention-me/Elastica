@@ -2,7 +2,7 @@
 namespace Elastica\Test\QueryBuilder\DSL;
 
 use Elastica\Filter\Exists;
-use Elastica\Query\Match;
+use Elastica\Query\Mtch;
 use Elastica\QueryBuilder\DSL;
 
 class FilterTest extends AbstractDSLTest
@@ -37,8 +37,8 @@ class FilterTest extends AbstractDSLTest
         $this->_assertImplemented($filterDSL, 'geo_shape_pre_indexed', 'Elastica\Filter\GeoShapePreIndexed', array('path', 'indexedId', 'indexedType', 'indexedIndex', 'indexedPath'));
         $this->_assertImplemented($filterDSL, 'geo_shape_provided', 'Elastica\Filter\GeoShapeProvided', array('path', array()));
         $this->_assertImplemented($filterDSL, 'geohash_cell', 'Elastica\Filter\GeohashCell', array('field', 'location'));
-        $this->_assertImplemented($filterDSL, 'has_child', 'Elastica\Filter\HasChild', array(new Match(), 'type'));
-        $this->_assertImplemented($filterDSL, 'has_parent', 'Elastica\Filter\HasParent', array(new Match(), 'type'));
+        $this->_assertImplemented($filterDSL, 'has_child', 'Elastica\Filter\HasChild', array(new Mtch(), 'type'));
+        $this->_assertImplemented($filterDSL, 'has_parent', 'Elastica\Filter\HasParent', array(new Mtch(), 'type'));
         $this->_assertImplemented($filterDSL, 'ids', 'Elastica\Filter\Ids', array('type', array()));
         $this->_assertImplemented($filterDSL, 'indices', 'Elastica\Filter\Indices', array(new Exists('field'), array()));
         $this->_assertImplemented($filterDSL, 'limit', 'Elastica\Filter\Limit', array(1));
@@ -47,7 +47,7 @@ class FilterTest extends AbstractDSLTest
         $this->_assertImplemented($filterDSL, 'nested', 'Elastica\Filter\Nested', array());
         $this->_assertImplemented($filterDSL, 'numeric_range', 'Elastica\Filter\NumericRange', array());
         $this->_assertImplemented($filterDSL, 'prefix', 'Elastica\Filter\Prefix', array('field', 'prefix'));
-        $this->_assertImplemented($filterDSL, 'query', 'Elastica\Filter\Query', array(new Match()));
+        $this->_assertImplemented($filterDSL, 'query', 'Elastica\Filter\Query', array(new Mtch()));
         $this->_assertImplemented($filterDSL, 'range', 'Elastica\Filter\Range', array('field', array()));
         $this->_assertImplemented($filterDSL, 'regexp', 'Elastica\Filter\Regexp', array('field', 'regex'));
         $this->_assertImplemented($filterDSL, 'script', 'Elastica\Filter\Script', array('script'));

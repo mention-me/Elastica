@@ -24,7 +24,7 @@ class SnapshotTest extends Base
      */
     protected $_docs;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
         $this->_snapshot = new Snapshot($this->_getClient());

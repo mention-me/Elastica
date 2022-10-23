@@ -12,12 +12,13 @@
         }
     ],
     "require": {
-        "php": ">=5.3.3",
+        "php": "^8.1",
         "psr/log": "~1.0"
     },
     "require-dev": {
         "munkie/elasticsearch-thrift-php": "1.4.*",
-        "guzzlehttp/guzzle": "5.3.*"
+        "guzzlehttp/guzzle": "5.3.*",
+        "phpunit/phpunit": "^9.5"
     },
     "suggest": {
         "munkie/elasticsearch-thrift-php": "Allow using thrift transport",

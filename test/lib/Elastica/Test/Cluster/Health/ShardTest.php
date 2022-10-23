@@ -7,11 +7,11 @@ use Elastica\Test\Base as BaseTest;
 class ShardTest extends BaseTest
 {
     /**
-     * @var \Elastica\Cluster\Health\Shard
+     * @var HealthShard
      */
     protected $_shard;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 

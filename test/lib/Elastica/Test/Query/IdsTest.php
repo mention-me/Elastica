@@ -10,7 +10,7 @@ class IdsTest extends BaseTest
     protected $_index;
     protected $_type;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 

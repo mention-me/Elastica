@@ -158,7 +158,7 @@ class HasChildTest extends BaseTest
     {
         $index = $this->prepareSearchData();
 
-        $f = new \Elastica\Query\Match();
+        $f = new \Elastica\Query\Mtch();
         $f->setField('alt.name', 'testname');
         $filter = new HasChild($f, 'child');
 

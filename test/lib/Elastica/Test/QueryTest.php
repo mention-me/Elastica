@@ -52,7 +52,7 @@ class QueryTest extends BaseTest
         $query = new Builder($queryString);
         $queryArray = $query->toArray();
 
-        $this->assertInternalType('array', $queryArray);
+        $this->assertIsArray($queryArray);
 
         $this->assertEquals('2011-07-18 00:00:00', $queryArray['query']['filtered']['filter']['range']['due']['gte']);
     }

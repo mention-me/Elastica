@@ -7,11 +7,11 @@ use Elastica\Test\Base as BaseTest;
 class IndexTest extends BaseTest
 {
     /**
-     * @var \Elastica\Cluster\Health\Index
+     * @var HealthIndex
      */
     protected $_index;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
@@ -134,7 +134,7 @@ class IndexTest extends BaseTest
     {
         $shards = $this->_index->getShards();
 
-        $this->assertInternalType('array', $shards);
+        $this->assertIsArray($shards);
         $this->assertEquals(3, count($shards));
 
         foreach ($shards as $shard) {

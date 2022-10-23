@@ -1,4 +1,5 @@
 <?php
+
 namespace Elastica\Test\Bulk;
 
 use Elastica\Bulk;
@@ -6,6 +7,9 @@ use Elastica\Bulk\Action;
 use Elastica\Exception\Bulk\ResponseException;
 use Elastica\Response;
 use Elastica\Test\Base as BaseTest;
+use Elastica\Client;
+use Elastica\Exception\Bulk\Response\ActionException;
+use Elastica\Bulk\ResponseSet;
 
 class ResponseSetTest extends BaseTest
 {
@@ -13,7 +17,7 @@ class ResponseSetTest extends BaseTest
      * @group unit
      * @dataProvider isOkDataProvider
      */
-    public function testIsOk($responseData, $actions, $expected)
+    public function testIsOk($responseData, $actions, $expected): void
     {
         $responseSet = $this->_createResponseSet($responseData, $actions);
         $this->assertEquals($expected, $responseSet->isOk());
@@ -22,7 +26,7 @@ class ResponseSetTest extends BaseTest
     /**
      * @group unit
      */
-    public function testGetError()
+    public function testGetError(): void
     {
         list($responseData, $actions) = $this->_getFixture();
         $responseData['items'][1]['index']['ok'] = false;
@@ -36,23 +40,23 @@ class ResponseSetTest extends BaseTest
         } catch (ResponseException $e) {
             $responseSet = $e->getResponseSet();
 
-            $this->assertInstanceOf('Elastica\\Bulk\\ResponseSet', $responseSet);
+            $this->assertInstanceOf(ResponseSet::class, $responseSet);
 
             $this->assertTrue($responseSet->hasError());
             $this->assertNotEquals('AnotherExceptionMessage', $responseSet->getError());
             $this->assertEquals('SomeExceptionMessage', $responseSet->getError());
 
             $actionExceptions = $e->getActionExceptions();
-            $this->assertEquals(2, count($actionExceptions));
+            $this->assertCount(2, $actionExceptions);
 
-            $this->assertInstanceOf('Elastica\Exception\Bulk\Response\ActionException', $actionExceptions[0]);
+            $this->assertInstanceOf(ActionException::class, $actionExceptions[0]);
             $this->assertSame($actions[1], $actionExceptions[0]->getAction());
-            $this->assertContains('SomeExceptionMessage', $actionExceptions[0]->getMessage());
+            $this->assertStringContainsString('SomeExceptionMessage', $actionExceptions[0]->getMessage());
             $this->assertTrue($actionExceptions[0]->getResponse()->hasError());
 
-            $this->assertInstanceOf('Elastica\Exception\Bulk\Response\ActionException', $actionExceptions[1]);
+            $this->assertInstanceOf(ActionException::class, $actionExceptions[1]);
             $this->assertSame($actions[2], $actionExceptions[1]->getAction());
-            $this->assertContains('AnotherExceptionMessage', $actionExceptions[1]->getMessage());
+            $this->assertStringContainsString('AnotherExceptionMessage', $actionExceptions[1]->getMessage());
             $this->assertTrue($actionExceptions[1]->getResponse()->hasError());
         }
     }
@@ -60,20 +64,20 @@ class ResponseSetTest extends BaseTest
     /**
      * @group unit
      */
-    public function testGetBulkResponses()
+    public function testGetBulkResponses(): void
     {
         list($responseData, $actions) = $this->_getFixture();
 
         $responseSet = $this->_createResponseSet($responseData, $actions);
 
         $bulkResponses = $responseSet->getBulkResponses();
-        $this->assertInternalType('array', $bulkResponses);
-        $this->assertEquals(3, count($bulkResponses));
+        $this->assertIsArray($bulkResponses);
+        $this->assertCount(3, $bulkResponses);
 
         foreach ($bulkResponses as $i => $bulkResponse) {
-            $this->assertInstanceOf('Elastica\\Bulk\\Response', $bulkResponse);
+            $this->assertInstanceOf(Bulk\Response::class, $bulkResponse);
             $bulkResponseData = $bulkResponse->getData();
-            $this->assertInternalType('array', $bulkResponseData);
+            $this->assertIsArray($bulkResponseData);
             $this->assertArrayHasKey('_id', $bulkResponseData);
             $this->assertEquals($responseData['items'][$i]['index']['_id'], $bulkResponseData['_id']);
             $this->assertSame($actions[$i], $bulkResponse->getAction());
@@ -84,18 +88,18 @@ class ResponseSetTest extends BaseTest
     /**
      * @group unit
      */
-    public function testIterator()
+    public function testIterator(): void
     {
         list($responseData, $actions) = $this->_getFixture();
 
         $responseSet = $this->_createResponseSet($responseData, $actions);
 
-        $this->assertEquals(3, count($responseSet));
+        $this->assertCount(3, $responseSet);
 
         foreach ($responseSet as $i => $bulkResponse) {
-            $this->assertInstanceOf('Elastica\Bulk\Response', $bulkResponse);
+            $this->assertInstanceOf(Bulk\Response::class, $bulkResponse);
             $bulkResponseData = $bulkResponse->getData();
-            $this->assertInternalType('array', $bulkResponseData);
+            $this->assertIsArray($bulkResponseData);
             $this->assertArrayHasKey('_id', $bulkResponseData);
             $this->assertEquals($responseData['items'][$i]['index']['_id'], $bulkResponseData['_id']);
             $this->assertSame($actions[$i], $bulkResponse->getAction());
@@ -103,23 +107,23 @@ class ResponseSetTest extends BaseTest
         }
 
         $this->assertFalse($responseSet->valid());
-        $this->assertNotInstanceOf('Elastica\Bulk\Response', $responseSet->current());
+        $this->assertNotInstanceOf(Bulk\Response::class, $responseSet->current());
         $this->assertFalse($responseSet->current());
 
         $responseSet->next();
 
         $this->assertFalse($responseSet->valid());
-        $this->assertNotInstanceOf('Elastica\Bulk\Response', $responseSet->current());
+        $this->assertNotInstanceOf(Bulk\Response::class, $responseSet->current());
         $this->assertFalse($responseSet->current());
 
         $responseSet->rewind();
 
         $this->assertEquals(0, $responseSet->key());
         $this->assertTrue($responseSet->valid());
-        $this->assertInstanceOf('Elastica\Bulk\Response', $responseSet->current());
+        $this->assertInstanceOf(Bulk\Response::class, $responseSet->current());
     }
 
-    public function isOkDataProvider()
+    public function isOkDataProvider(): array
     {
         list($responseData, $actions) = $this->_getFixture();
 
@@ -135,16 +139,18 @@ class ResponseSetTest extends BaseTest
      * @param array $responseData
      * @param array $actions
      *
-     * @return \Elastica\Bulk\ResponseSet
+     * @return ResponseSet
      */
-    protected function _createResponseSet(array $responseData, array $actions)
+    protected function _createResponseSet(array $responseData, array $actions): ResponseSet
     {
-        $client = $this->getMock('Elastica\\Client', array('request'));
+        $client = $this->getMockBuilder(Client::class)
+            ->onlyMethods(array('request'))
+            ->getMock();
 
         $client->expects($this->once())
             ->method('request')
             ->withAnyParameters()
-            ->will($this->returnValue(new Response($responseData)));
+            ->willReturn(new Response($responseData));
 
         $bulk = new Bulk($client);
         $bulk->addActions($actions);
@@ -155,7 +161,7 @@ class ResponseSetTest extends BaseTest
     /**
      * @return array
      */
-    protected function _getFixture()
+    protected function _getFixture(): array
     {
         $responseData = array(
             'took' => 5,

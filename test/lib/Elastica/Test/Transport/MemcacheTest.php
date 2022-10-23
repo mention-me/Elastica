@@ -1,22 +1,24 @@
 <?php
 namespace Elastica\Test\Transport;
 
+use Elastica\Client;
 use Elastica\Document;
 use Elastica\Query;
 use Elastica\Query\QueryString;
 use Elastica\Request;
 use Elastica\Test\Base as BaseTest;
+use Memcache;
 
 class MemcacheTest extends BaseTest
 {
-    public static function setUpBeforeClass()
+    public static function setUpBeforeClass(): void
     {
         if (!extension_loaded('Memcache')) {
             self::markTestSkipped('pecl/memcache must be installed to run this test case');
         }
     }
 
-    protected function _getMemcacheClient()
+    protected function _getMemcacheClient(): Client
     {
         return $this->_getClient(array(
             'host' => $this->_getHost(),
@@ -180,7 +182,7 @@ class MemcacheTest extends BaseTest
 
     protected function checkMemcache()
     {
-        $memcache = new \Memcache();
+        $memcache = new Memcache();
 
         $client = $this->_getMemcacheClient();
 

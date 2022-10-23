@@ -27,7 +27,7 @@ class StatusTest extends BaseTest
         $status = new Status($index->getClient());
         $statuses = $status->getIndexStatuses();
 
-        $this->assertInternalType('array', $statuses);
+        $this->assertIsArray($statuses);
 
         foreach ($statuses as $indexStatus) {
             $this->assertInstanceOf('Elastica\Index\Status', $indexStatus);
@@ -50,7 +50,7 @@ class StatusTest extends BaseTest
         $status = new Status($index->getClient());
         $names = $status->getIndexNames();
 
-        $this->assertInternalType('array', $names);
+        $this->assertIsArray($names);
         $this->assertContains($index->getName(), $names);
 
         foreach ($names as $name) {

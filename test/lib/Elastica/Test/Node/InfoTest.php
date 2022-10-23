@@ -25,7 +25,7 @@ class InfoTest extends BaseTest
         $info = new NodeInfo($node, array('os'));
 
         $this->assertNotNull($info->get('os', 'mem', 'total_in_bytes'));
-        $this->assertInternalType('array', $info->get('os', 'mem'));
+        $this->assertIsArray($info->get('os', 'mem'));
         $this->assertNull($info->get('test', 'notest', 'notexist'));
     }
 

@@ -4,15 +4,16 @@ namespace Elastica\Test;
 use Elastica\Log;
 use Elastica\Test\Base as BaseTest;
 use Psr\Log\LogLevel;
+use Psr\Log\AbstractLogger;
 
 class LogTest extends BaseTest
 {
     private $_context = array();
     private $_message = 'hello world';
 
-    public static function setUpBeforeClass()
+    public static function setUpBeforeClass(): void
     {
-        if (!class_exists('Psr\Log\AbstractLogger')) {
+        if (!class_exists(AbstractLogger::class)) {
             self::markTestSkipped('The Psr extension is not available.');
         }
     }

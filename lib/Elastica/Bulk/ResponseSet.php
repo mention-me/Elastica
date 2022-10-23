@@ -6,7 +6,7 @@ use Elastica\Response as BaseResponse;
 class ResponseSet extends BaseResponse implements \Iterator, \Countable
 {
     /**
-     * @var \Elastica\Bulk\Response[]
+     * @var Response[]
      */
     protected $_bulkResponses = array();
 
@@ -16,8 +16,8 @@ class ResponseSet extends BaseResponse implements \Iterator, \Countable
     protected $_position = 0;
 
     /**
-     * @param \Elastica\Response        $response
-     * @param \Elastica\Bulk\Response[] $bulkResponses
+     * @param BaseResponse $response
+     * @param Response[] $bulkResponses
      */
     public function __construct(BaseResponse $response, array $bulkResponses)
     {
@@ -27,7 +27,7 @@ class ResponseSet extends BaseResponse implements \Iterator, \Countable
     }
 
     /**
-     * @return \Elastica\Bulk\Response[]
+     * @return Response[]
      */
     public function getBulkResponses()
     {
@@ -88,9 +88,9 @@ class ResponseSet extends BaseResponse implements \Iterator, \Countable
     }
 
     /**
-     * @return bool|\Elastica\Bulk\Response
+     * @return bool|Response
      */
-    public function current()
+    public function current(): mixed
     {
         if ($this->valid()) {
             return $this->_bulkResponses[$this->key()];
@@ -101,7 +101,7 @@ class ResponseSet extends BaseResponse implements \Iterator, \Countable
 
     /**
      */
-    public function next()
+    public function next(): void
     {
         ++$this->_position;
     }
@@ -109,7 +109,7 @@ class ResponseSet extends BaseResponse implements \Iterator, \Countable
     /**
      * @return int
      */
-    public function key()
+    public function key(): mixed
     {
         return $this->_position;
     }
@@ -117,14 +117,14 @@ class ResponseSet extends BaseResponse implements \Iterator, \Countable
     /**
      * @return bool
      */
-    public function valid()
+    public function valid(): bool
     {
         return isset($this->_bulkResponses[$this->key()]);
     }
 
     /**
      */
-    public function rewind()
+    public function rewind(): void
     {
         $this->_position = 0;
     }
@@ -132,7 +132,7 @@ class ResponseSet extends BaseResponse implements \Iterator, \Countable
     /**
      * @return int
      */
-    public function count()
+    public function count(): int
     {
         return count($this->_bulkResponses);
     }

@@ -2,7 +2,7 @@
 namespace Elastica\Test\Query;
 
 use Elastica\Document;
-use Elastica\Query\Match;
+use Elastica\Query\Mtch;
 use Elastica\Query\MatchPhrase;
 use Elastica\Query\MatchPhrasePrefix;
 use Elastica\Test\Base as BaseTest;
@@ -26,7 +26,7 @@ class MatchTest extends BaseTest
         $prefixLength = 3;
         $maxExpansions = 12;
 
-        $query = new Match();
+        $query = new Mtch();
         $query->setFieldQuery($field, $testQuery);
         $query->setFieldType($field, $type);
         $query->setFieldOperator($field, $operator);
@@ -80,7 +80,7 @@ class MatchTest extends BaseTest
         $field = 'name';
         $operator = 'or';
 
-        $query = new Match();
+        $query = new Mtch();
         $query->setFieldQuery($field, 'Basel New');
         $query->setFieldOperator($field, $operator);
 
@@ -111,7 +111,7 @@ class MatchTest extends BaseTest
         $field = 'name';
         $operator = 'or';
 
-        $query = new Match();
+        $query = new Mtch();
         $query->setFieldQuery($field, 'Basel New');
         $query->setFieldOperator($field, $operator);
         $query->setFieldBoost($field, 1.2);
@@ -143,7 +143,7 @@ class MatchTest extends BaseTest
         $field = 'name';
         $operator = 'or';
 
-        $query = new Match();
+        $query = new Mtch();
         $query->setFieldQuery($field, 'Basel New');
         $query->setFieldOperator($field, $operator);
         $query->setFieldBoost($field, '1.2');
@@ -170,9 +170,9 @@ class MatchTest extends BaseTest
 
         $index->refresh();
 
-        $query = new Match();
+        $query = new Mtch();
         $query->setFieldQuery('name', '');
-        $query->setFieldZeroTermsQuery('name', Match::ZERO_TERM_ALL);
+        $query->setFieldZeroTermsQuery('name', Mtch::ZERO_TERM_ALL);
 
         $resultSet = $index->search($query);
 
@@ -201,7 +201,7 @@ class MatchTest extends BaseTest
         $field = 'name';
         $type = 'phrase';
 
-        $query = new Match();
+        $query = new Mtch();
         $query->setFieldQuery($field, 'New York');
         $query->setFieldType($field, $type);
 
@@ -261,7 +261,7 @@ class MatchTest extends BaseTest
         $field = 'name';
         $type = 'phrase_prefix';
 
-        $query = new Match();
+        $query = new Mtch();
         $query->setFieldQuery($field, 'New');
         $query->setFieldType($field, $type);
 
@@ -305,7 +305,7 @@ class MatchTest extends BaseTest
     public function testMatchFuzzinessType()
     {
         $field = 'test';
-        $query = new Match();
+        $query = new Mtch();
 
         $fuzziness = 'AUTO';
         $query->setFieldFuzziness($field, $fuzziness);
@@ -325,14 +325,14 @@ class MatchTest extends BaseTest
      */
     public function testConstruct()
     {
-        $match = new Match(null, 'values');
+        $match = new Mtch(null, 'values');
         $this->assertEquals(array('match' => array()), $match->toArray());
 
-        $match = new Match('field', null);
+        $match = new Mtch('field', null);
         $this->assertEquals(array('match' => array()), $match->toArray());
 
-        $match1 = new Match('field', 'values');
-        $match2 = new Match();
+        $match1 = new Mtch('field', 'values');
+        $match2 = new Mtch();
         $match2->setField('field', 'values');
         $this->assertEquals($match1->toArray(), $match2->toArray());
     }

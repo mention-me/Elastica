@@ -247,7 +247,7 @@ class HttpTest extends BaseTest
         $this->_checkConnection($url['host'], $url['port']);
     }
 
-    protected function tearDown()
+    protected function tearDown(): void
     {
         parent::tearDown();
         putenv('http_proxy=');

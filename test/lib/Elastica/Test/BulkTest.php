@@ -255,7 +255,7 @@ class BulkTest extends BaseTest
 
         $actions = $bulk->getActions();
 
-        $this->assertInternalType('array', $actions);
+        $this->assertIsArray($actions);
         $this->assertEquals(5, count($actions));
 
         $this->assertInstanceOf('Elastica\Bulk\Action', $actions[0]);
@@ -390,7 +390,7 @@ class BulkTest extends BaseTest
         } catch (ResponseException $e) {
             $this->assertContains('DocumentAlreadyExists', $e->getMessage());
             $failures = $e->getFailures();
-            $this->assertInternalType('array', $failures);
+            $this->assertIsArray($failures);
             $this->assertArrayHasKey(0, $failures);
             $this->assertContains('DocumentAlreadyExists', $failures[0]);
         }

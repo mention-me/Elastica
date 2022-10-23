@@ -2,19 +2,21 @@
 namespace Elastica\Test;
 
 use Elastica\Document;
+use Elastica\Exception\InvalidException;
 use Elastica\Exception\ResponseException;
 use Elastica\Query;
 use Elastica\ScriptFile;
 use Elastica\Test\Base as BaseTest;
 use Elastica\Type;
 use Elastica\Type\Mapping;
+use stdClass;
 
 class ScriptFileTest extends BaseTest
 {
     /**
      * @group functional
      */
-    public function testSearch()
+    public function testSearch(): void
     {
         $index = $this->_createIndex();
         $type = $index->getType('test');
@@ -55,7 +57,7 @@ class ScriptFileTest extends BaseTest
     /**
      * @group unit
      */
-    public function testConstructor()
+    public function testConstructor(): void
     {
         $value = 'calculate-distance.groovy';
         $scriptFile = new ScriptFile($value);
@@ -86,7 +88,7 @@ class ScriptFileTest extends BaseTest
     /**
      * @group unit
      */
-    public function testCreateString()
+    public function testCreateString(): void
     {
         $string = 'calculate-distance.groovy';
         $scriptFile = ScriptFile::create($string);
@@ -104,7 +106,7 @@ class ScriptFileTest extends BaseTest
     /**
      * @group unit
      */
-    public function testCreateScriptFile()
+    public function testCreateScriptFile(): void
     {
         $data = new ScriptFile('calculate-distance.groovy');
 
@@ -117,7 +119,7 @@ class ScriptFileTest extends BaseTest
     /**
      * @group unit
      */
-    public function testCreateArray()
+    public function testCreateArray(): void
     {
         $string = 'calculate-distance.groovy';
         $params = array(
@@ -142,21 +144,21 @@ class ScriptFileTest extends BaseTest
     /**
      * @group unit
      * @dataProvider dataProviderCreateInvalid
-     * @expectedException \Elastica\Exception\InvalidException
      */
-    public function testCreateInvalid($data)
+    public function testCreateInvalid($data): void
     {
+        $this->expectException(InvalidException::class);
         ScriptFile::create($data);
     }
 
     /**
      * @return array
      */
-    public function dataProviderCreateInvalid()
+    public function dataProviderCreateInvalid(): array
     {
         return array(
             array(
-                new \stdClass(),
+                new stdClass(),
             ),
             array(
                 array('params' => array('param1' => 'one')),
@@ -170,7 +172,7 @@ class ScriptFileTest extends BaseTest
     /**
      * @group unit
      */
-    public function testSetScriptFile()
+    public function testSetScriptFile(): void
     {
         $scriptFile = new ScriptFile('foo');
         $this->assertEquals('foo', $scriptFile->getScriptFile());

@@ -17,7 +17,7 @@ class ScriptTest extends BaseTest
         $filter = new ScriptFilter($string);
 
         $array = $filter->toArray();
-        $this->assertInternalType('array', $array);
+        $this->assertIsArray($array);
 
         $expected = array(
             'script' => array(

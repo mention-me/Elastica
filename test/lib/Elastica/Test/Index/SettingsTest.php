@@ -22,7 +22,7 @@ class SettingsTest extends BaseTest
         $index->refresh();
         $settings = $index->getSettings();
 
-        $this->assertInternalType('array', $settings->get());
+        $this->assertIsArray($settings->get());
         $this->assertNotNull($settings->get('number_of_replicas'));
         $this->assertNotNull($settings->get('number_of_shards'));
         $this->assertNull($settings->get('kjqwerjlqwer'));
@@ -47,7 +47,7 @@ class SettingsTest extends BaseTest
         $index = $client->getIndex($aliasName);
         $settings = $index->getSettings();
 
-        $this->assertInternalType('array', $settings->get());
+        $this->assertIsArray($settings->get());
         $this->assertNotNull($settings->get('number_of_replicas'));
         $this->assertNotNull($settings->get('number_of_shards'));
         $this->assertNull($settings->get('kjqwerjlqwer'));

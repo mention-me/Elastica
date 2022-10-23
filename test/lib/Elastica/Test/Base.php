@@ -4,8 +4,9 @@ namespace Elastica\Test;
 use Elastica\Client;
 use Elastica\Connection;
 use Elastica\Index;
+use PHPUnit\Framework\TestCase;
 
-class Base extends \PHPUnit_Framework_TestCase
+class Base extends TestCase
 {
     /**
      * @param array    $params   Additional configuration params. Host and Port are already set
@@ -131,7 +132,7 @@ class Base extends \PHPUnit_Framework_TestCase
         } while (!$allocated);
     }
 
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 
@@ -139,7 +140,7 @@ class Base extends \PHPUnit_Framework_TestCase
         $this->assertTrue($hasGroup, 'Every test must have one of "unit", "functional", "shutdown" or "benchmark" group');
     }
 
-    protected function tearDown()
+    protected function tearDown(): void
     {
         if ($this->_isFunctionalGroup()) {
             $this->_getClient()->getIndex('_all')->delete();
@@ -149,30 +150,30 @@ class Base extends \PHPUnit_Framework_TestCase
         parent::tearDown();
     }
 
-    protected function _isUnitGroup()
+    protected function _isUnitGroup(): bool
     {
-        $groups = \PHPUnit_Util_Test::getGroups(get_class($this), $this->getName(false));
+        $groups = $this->getGroups();
 
         return in_array('unit', $groups);
     }
 
     protected function _isFunctionalGroup()
     {
-        $groups = \PHPUnit_Util_Test::getGroups(get_class($this), $this->getName(false));
+        $groups = $this->getGroups();
 
         return in_array('functional', $groups);
     }
 
     protected function _isShutdownGroup()
     {
-        $groups = \PHPUnit_Util_Test::getGroups(get_class($this), $this->getName(false));
+        $groups = $this->getGroups();
 
         return in_array('shutdown', $groups);
     }
 
     protected function _isBenchmarkGroup()
     {
-        $groups = \PHPUnit_Util_Test::getGroups(get_class($this), $this->getName(false));
+        $groups = $this->getGroups();
 
         return in_array('benchmark', $groups);
     }

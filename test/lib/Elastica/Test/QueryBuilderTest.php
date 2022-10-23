@@ -5,13 +5,14 @@ use Elastica\Exception\QueryBuilderException;
 use Elastica\Query;
 use Elastica\QueryBuilder;
 use Elastica\Suggest;
+use PHPUnit\Framework\TestCase;
 
-class QueryBuilderTest extends \PHPUnit_Framework_TestCase
+class QueryBuilderTest extends TestCase
 {
     /**
      * @group unit
      */
-    public function testCustomDSL()
+    public function testCustomDSL(): void
     {
         $qb = new QueryBuilder();
 
@@ -34,7 +35,7 @@ class QueryBuilderTest extends \PHPUnit_Framework_TestCase
     /**
      * @group unit
      */
-    public function testFacade()
+    public function testFacade(): void
     {
         $qb = new QueryBuilder();
 
@@ -48,7 +49,7 @@ class QueryBuilderTest extends \PHPUnit_Framework_TestCase
     /**
      * @group unit
      */
-    public function testFacadeException()
+    public function testFacadeException(): void
     {
         $qb = new QueryBuilder(new QueryBuilder\Version\Version100());
 
@@ -81,7 +82,7 @@ class CustomDSL implements QueryBuilder\DSL
         return 'custom';
     }
 
-    public function custom_method()
+    public function custom_method(): bool
     {
         return true;
     }

@@ -53,7 +53,7 @@ class ClusterTest extends BaseTest
         $client = $this->_getClient();
         $cluster = $client->getCluster();
         $state = $cluster->getState();
-        $this->assertInternalType('array', $state);
+        $this->assertIsArray($state);
     }
 
     /**

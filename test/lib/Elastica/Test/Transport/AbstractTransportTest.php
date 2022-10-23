@@ -4,18 +4,17 @@ namespace Elastica\Test\Transport;
 use Elastica\Connection;
 use Elastica\Transport\AbstractTransport;
 use Elastica\Transport\Http;
+use PHPUnit\Framework\TestCase;
 
-class AbstractTransportTest extends \PHPUnit_Framework_TestCase
+class AbstractTransportTest extends TestCase
 {
     /**
      * Return transport configuration and the expected HTTP method.
      *
      * @return array[]
      */
-    public function getValidDefinitions()
+    public function getValidDefinitions(): array
     {
-        $connection = new Connection();
-
         return array(
             array('Http'),
             array(array('type' => 'Http')),
@@ -37,7 +36,7 @@ class AbstractTransportTest extends \PHPUnit_Framework_TestCase
         $this->assertSame($connection, $transport->getConnection());
     }
 
-    public function getInvalidDefinitions()
+    public function getInvalidDefinitions(): array
     {
         return array(
             array(array('transport' => 'Http')),

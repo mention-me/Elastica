@@ -16,7 +16,7 @@ use Elastica\Query\FuzzyLikeThis;
 use Elastica\Query\HasChild;
 use Elastica\Query\HasParent;
 use Elastica\Query\Ids;
-use Elastica\Query\Match;
+use Elastica\Query\Mtch;
 use Elastica\Query\MatchAll;
 use Elastica\Query\MoreLikeThis;
 use Elastica\Query\MultiMatch;
@@ -59,11 +59,11 @@ class Query implements DSL
      * @param string $field
      * @param mixed  $values
      *
-     * @return Match
+     * @return Mtch
      */
     public function match($field = null, $values = null)
     {
-        return new Match($field, $values);
+        return new Mtch($field, $values);
     }
 
     /**

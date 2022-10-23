@@ -5,12 +5,13 @@ use Elastica\Connection;
 use Elastica\Document;
 use Elastica\Index;
 use Elastica\Test\Base as BaseTest;
+use Elasticsearch\RestClient;
 
 class ThriftTest extends BaseTest
 {
-    public static function setUpBeforeClass()
+    public static function setUpBeforeClass(): void
     {
-        if (!class_exists('Elasticsearch\\RestClient')) {
+        if (!class_exists(RestClient::class)) {
             self::markTestSkipped('munkie/elasticsearch-thrift-php package should be installed to run thrift transport tests');
         }
     }
@@ -18,7 +19,7 @@ class ThriftTest extends BaseTest
     /**
      * @group unit
      */
-    public function testConstruct()
+    public function testConstruct(): void
     {
         $host = $this->_getHost();
         $port = 9500;
@@ -32,7 +33,7 @@ class ThriftTest extends BaseTest
      * @group functional
      * @dataProvider configProvider
      */
-    public function testSearchRequest($config)
+    public function testSearchRequest($config): void
     {
         $this->_checkPlugin('transport-thrift');
 
@@ -72,7 +73,7 @@ class ThriftTest extends BaseTest
      * @group unit
      * @expectedException \Elastica\Exception\ConnectionException
      */
-    public function testInvalidHostRequest()
+    public function testInvalidHostRequest(): void
     {
         $this->_checkPlugin('transport-thrift');
 
@@ -84,7 +85,7 @@ class ThriftTest extends BaseTest
      * @group functional
      * @expectedException \Elastica\Exception\ResponseException
      */
-    public function testInvalidElasticRequest()
+    public function testInvalidElasticRequest(): void
     {
         $this->_checkPlugin('transport-thrift');
 
@@ -100,7 +101,7 @@ class ThriftTest extends BaseTest
         $index->getStatus();
     }
 
-    public function configProvider()
+    public function configProvider(): array
     {
         return array(
             array(

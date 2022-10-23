@@ -5,12 +5,13 @@ use Elastica\Document;
 use Elastica\Query;
 use Elastica\ResultSet;
 use Elastica\Test\Base as BaseTest;
+use GuzzleHttp\Client;
 
 class GuzzleTest extends BaseTest
 {
-    public static function setUpBeforeClass()
+    public static function setUpBeforeClass(): void
     {
-        if (!class_exists('GuzzleHttp\\Client')) {
+        if (!class_exists(Client::class)) {
             self::markTestSkipped('guzzlehttp/guzzle package should be installed to run guzzle transport tests');
         }
     }
@@ -20,7 +21,7 @@ class GuzzleTest extends BaseTest
      *
      * @return array[]
      */
-    public function getConfig()
+    public function getConfig(): array
     {
         return array(
             array(
@@ -180,12 +181,12 @@ class GuzzleTest extends BaseTest
         $this->_checkConnection($url['host'], $url['port']);
     }
 
-    protected function setUp()
+    protected function setUp(): void
     {
         putenv('http_proxy=');
     }
 
-    protected function tearDown()
+    protected function tearDown(): void
     {
         parent::tearDown();
         putenv('http_proxy=');

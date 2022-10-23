@@ -3,6 +3,7 @@
 *.iml
 .vagrant
 .php_cs.cache
+.phpunit.result.cache
 
 cache.properties
 /nbproject

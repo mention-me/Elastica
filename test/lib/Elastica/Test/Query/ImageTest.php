@@ -15,7 +15,7 @@ class ImageTest extends BaseTest
      */
     protected $_testFileContent;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
         $this->_testFileContent = base64_encode(file_get_contents(BASE_PATH.'/data/test.jpg'));

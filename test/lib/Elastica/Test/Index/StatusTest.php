@@ -23,7 +23,7 @@ class StatusTest extends BaseTest
         $aliases = $status->getAliases();
 
         $this->assertTrue(empty($aliases));
-        $this->assertInternalType('array', $aliases);
+        $this->assertIsArray($aliases);
 
         $index->addAlias($aliasName);
         $status->refresh();
@@ -68,7 +68,7 @@ class StatusTest extends BaseTest
         $status = $index->getStatus();
 
         $settings = $status->getSettings();
-        $this->assertInternalType('array', $settings);
+        $this->assertIsArray($settings);
         $this->assertTrue(isset($settings['index']['number_of_shards']));
     }
 }

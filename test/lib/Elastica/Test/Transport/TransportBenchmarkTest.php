@@ -14,7 +14,7 @@ class TransportBenchmarkTest extends BaseTest
 
     protected static $_results = array();
 
-    public static function tearDownAfterClass()
+    public static function tearDownAfterClass(): void
     {
         self::printResults();
     }
@@ -24,7 +24,7 @@ class TransportBenchmarkTest extends BaseTest
      *
      * @return \Elastica\Type
      */
-    protected function getType(array $config)
+    protected function getType(array $config): \Elastica\Type
     {
         $client = $this->_getClient($config);
         $index = $client->getIndex('benchmark'.uniqid());
@@ -37,7 +37,7 @@ class TransportBenchmarkTest extends BaseTest
      * @dataProvider providerTransport
      * @group benchmark
      */
-    public function testAddDocument(array $config, $transport)
+    public function testAddDocument(array $config, $transport): void
     {
         $this->_checkTransport($config, $transport);
 
@@ -64,7 +64,7 @@ class TransportBenchmarkTest extends BaseTest
      * @dataProvider providerTransport
      * @group benchmark
      */
-    public function testRandomRead(array $config, $transport)
+    public function testRandomRead(array $config, $transport): void
     {
         $this->_checkTransport($config, $transport);
 
@@ -90,7 +90,7 @@ class TransportBenchmarkTest extends BaseTest
      * @dataProvider providerTransport
      * @group benchmark
      */
-    public function testBulk(array $config, $transport)
+    public function testBulk(array $config, $transport): void
     {
         $this->_checkTransport($config, $transport);
 
@@ -115,7 +115,7 @@ class TransportBenchmarkTest extends BaseTest
      * @dataProvider providerTransport
      * @group benchmark
      */
-    public function testGetMapping(array $config, $transport)
+    public function testGetMapping(array $config, $transport): void
     {
         $this->_checkTransport($config, $transport);
 
@@ -153,7 +153,7 @@ class TransportBenchmarkTest extends BaseTest
         self::logResults('get mapping', $transport, $times);
     }
 
-    public function providerTransport()
+    public function providerTransport(): array
     {
         return array(
             array(
@@ -193,7 +193,7 @@ class TransportBenchmarkTest extends BaseTest
      *
      * @return array
      */
-    protected function getData($test)
+    protected function getData($test): array
     {
         $data = array(
             'test' => $test,
@@ -211,7 +211,7 @@ class TransportBenchmarkTest extends BaseTest
      * @param $transport
      * @param array $times
      */
-    protected static function logResults($name, $transport, array $times)
+    protected static function logResults($name, $transport, array $times): void
     {
         self::$_results[$name][$transport] = array(
             'count' => count($times),
@@ -221,7 +221,7 @@ class TransportBenchmarkTest extends BaseTest
         );
     }
 
-    protected static function printResults()
+    protected static function printResults(): void
     {
         echo sprintf(
             "\n%-12s | %-20s | %-12s | %-12s | %-12s | %-12s\n\n",
@@ -261,7 +261,7 @@ class TransportBenchmarkTest extends BaseTest
         }
     }
 
-    protected function _checkTransport(array $config, $transport)
+    protected function _checkTransport(array $config, $transport): void
     {
         if (strpos($transport, 'Thrift') !== false && !class_exists('Elasticsearch\\RestClient')) {
             self::markTestSkipped('munkie/elasticsearch-thrift-php package should be installed to run thrift transport tests');

@@ -9,7 +9,7 @@ namespace Elastica\Query;
  *
  * @link http://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-match-query.html
  */
-class Match extends AbstractQuery
+class Mtch extends AbstractQuery
 {
     const ZERO_TERM_NONE = 'none';
     const ZERO_TERM_ALL = 'all';
