@@ -32,7 +32,7 @@ class Mtch extends AbstractQuery
      */
     public function _getBaseName()
     {
-        return "match"
+        return "match";
     }
 
     /**
