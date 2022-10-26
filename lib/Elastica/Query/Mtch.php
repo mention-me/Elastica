@@ -24,6 +24,16 @@ class Mtch extends AbstractQuery
             $this->setParam($field, $values);
         }
     }
+    
+    /**
+     * Because php8 has Match as a keyword, we renamed the class to Mtch. This ensures we still pass Match to ElasticSearch.
+     *
+     * @inheritdoc
+     */
+    public function _getBaseName()
+    {
+        return "match"
+    }
 
     /**
      * Sets a param for the message array.
